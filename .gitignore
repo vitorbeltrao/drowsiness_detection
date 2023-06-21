@@ -162,3 +162,7 @@ cython_debug/
 # others
 *.ipynb
 opencv-4.7.0
+/runs
+*.jpg
+/data
+/labelImg
