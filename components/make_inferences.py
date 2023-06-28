@@ -24,11 +24,11 @@ def inference_image(image_path: str, yolo_model_path: str) -> None:
     Perform inference on an image.
 
     Args:
-    image_path (str): The path to the input image.
-    yolo_model_path (str): The path to the YOLO model weights.
+        image_path (str): The path to the input image.
+        yolo_model_path (str): The path to the YOLO model weights.
 
     Returns:
-    None
+        None
     '''
     # Load the trained model
     final_model = YOLO(yolo_model_path)
@@ -54,10 +54,10 @@ def inference_video(yolo_model_path: str) -> None:
     Perform real-time inference using the webcam.
 
     Args:
-    yolo_model_path (str): The path to the YOLO model weights.
+        yolo_model_path (str): The path to the YOLO model weights.
 
     Returns:
-    None
+        None
     '''
     # Load the trained model
     final_model = YOLO(yolo_model_path)
