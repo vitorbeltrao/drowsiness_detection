@@ -8,6 +8,7 @@ Date: June/2023
 
 # import necessary packages
 import logging
+import sys
 import cv2
 import matplotlib.pyplot as plt
 from ultralytics import YOLO
@@ -17,6 +18,10 @@ logging.basicConfig(
     level=logging.INFO,
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
+
+# config
+YOLO_MODEL_PATH = sys.argv[1]
+ID_VIDEO = sys.argv[2]
 
 
 def inference_image(image_path: str, yolo_model_path: str) -> None:
@@ -49,12 +54,13 @@ def inference_image(image_path: str, yolo_model_path: str) -> None:
     plt.show()
 
 
-def inference_video(yolo_model_path: str) -> None:
+def inference_video(yolo_model_path: str, id_video: int) -> None:
     '''
     Perform real-time inference using the webcam.
 
     Args:
         yolo_model_path (str): The path to the YOLO model weights.
+        id_video (int): id of the video capturing device to open.
 
     Returns:
         None
@@ -64,7 +70,7 @@ def inference_video(yolo_model_path: str) -> None:
     logging.info("Connecting to the webcam...")
 
     # Connect to the webcam
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(id_video)
 
     # Loop through each frame until we close the webcam
     while cap.isOpened():
@@ -88,3 +94,9 @@ def inference_video(yolo_model_path: str) -> None:
 
     # Close the frame window
     cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    logging.info('About to start executing the make_inferences component\n')
+    inference_video(YOLO_MODEL_PATH, ID_VIDEO)
+    logging.info('Done executing the make_inferences component')

@@ -11,11 +11,17 @@ import cv2
 import time
 import uuid
 import logging
+import sys
+import wandb
 
 logging.basicConfig(
     level=logging.INFO,
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
+
+# config
+DATA_DIR = sys.argv[1]
+NUMBER_IMGS = sys.argv[2]
 
 
 def collect_images_from_webcam(
@@ -66,18 +72,25 @@ def collect_images_from_webcam(
 
 
 if __name__ == "__main__":
+    logging.info('About to start executing the collect_data component\n')
     # Create the directory structure if it doesn't exist
-    data_dir = '../data'
-    images_dir = os.path.join(data_dir, 'images')
-    labels_dir = os.path.join(data_dir, 'labels')
-
+    images_dir = os.path.join(DATA_DIR, 'images')
+    labels_dir = os.path.join(DATA_DIR, 'labels')
+    
     os.makedirs(images_dir, exist_ok=True)
     os.makedirs(labels_dir, exist_ok=True)
 
     # Execute the image collection
     labels = ['awake', 'drowsy']
-    number_imgs = 20
 
     logging.info('About to start executing the image collect function')
-    collect_images_from_webcam(labels, number_imgs, images_dir)
-    logging.info('Done executing the image collect function')
+    collect_images_from_webcam(labels, NUMBER_IMGS, images_dir)
+    logging.info('Done executing the image collect function\n')
+
+    run = wandb.init()
+    artifact = wandb.Artifact('drowsiness', type='dataset')
+    artifact.add_dir(DATA_DIR)
+    run.log_artifact(artifact) 
+    logging.info('Uploaded dataset to wandb: SUCCESS\n')
+
+    logging.info('Done executing the collect_data component')

@@ -1,24 +1,55 @@
 '''
-Main file to orchestrate the functions
-made in components
+This is the main system file that runs all necessary
+components to run the machine learning pipeline
 
 Author: Vitor Abdo
 Date: June/2023
 '''
 
 # import necessary packages
-import logging
-import playsound
+import argparse
+import os
+import mlflow
 
-from components.make_inferences import inference_video
+# define argument parser
+parser = argparse.ArgumentParser()
+parser.add_argument('--steps', type=str, default='all', help='Steps to execute')
 
-logging.basicConfig(
-    level=logging.INFO,
-    filemode='w',
-    format='%(name)s - %(levelname)s - %(message)s')
+_steps = [
+    'collect_data',
+    'train_data',
+    'make_inferences']
+
+
+def main():
+    '''Main file that runs the entire pipeline end-to-end using mlflow
+    :param steps: str
+    Steps to execute. Default is 'all', which executes all steps
+    '''
+    # read command line arguments
+    args = parser.parse_args()
+
+    # Setup the wandb experiment. All runs will be grouped under this name
+    os.environ['WANDB_PROJECT'] = 'drowsiness_detection'
+    os.environ['WANDB_RUN_GROUP'] = 'development'
+
+    # Steps to execute
+    steps_par = args.steps
+    active_steps = steps_par.split(',') if steps_par != 'all' else _steps
+
+    if 'collect_data' in active_steps:
+        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/01_collect_data'
+        mlflow.run(project_uri, parameters={'steps': 'collect_data'})
+
+    if 'train_data' in active_steps:
+        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/02_train_data'
+        mlflow.run(project_uri, parameters={'steps': 'train_data'})
+
+    if 'make_inferences' in active_steps:
+        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/03_make_inferences'
+        mlflow.run(project_uri, parameters={'steps': 'make_inferences'})
 
 
 if __name__ == "__main__":
-    #start here the code
-
-    playsound.playsound('alarm.wav')
+    # call the main function
+    main()

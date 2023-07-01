@@ -8,6 +8,8 @@ Date: June/2023
 
 # import necessary packages
 import logging
+import timeit
+import sys
 from ultralytics import YOLO
 
 logging.basicConfig(
@@ -15,16 +17,24 @@ logging.basicConfig(
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
 
+# config
+DATA = sys.argv[1]
+EPOCHS = sys.argv[2]
+BATCH = sys.argv[3]
+MODEL_NAME = sys.argv[4]
+LR0 = sys.argv[5]
+LRF = sys.argv[6]
+WEIGHT_DECAY = sys.argv[7]
+
 
 def train_custom_yolo_model(
-    data: str = '../data.yaml',
-    epochs: int = 20,
-    batch: int = 8,
-    model_name: str = 'yolov8n_drowsiness',
-    lr0: float = 0.01,
-    lrf: float = 0.01,
-    weight_decay: float = 0.0005,
-    device: str = None) -> tuple:
+    data: str,
+    epochs: int,
+    batch: int,
+    model_name: str,
+    lr0: float,
+    lrf: float,
+    weight_decay: float) -> tuple:
     '''
     Function to train a custom model using YOLO v8.
 
@@ -37,7 +47,6 @@ def train_custom_yolo_model(
     - lr0 (float): Initial learning rate for optimizer. Default is 0.01.
     - lrf (float): Final learning rate for optimizer. Default is 0.01.
     - weight_decay (float): Weight decay for optimizer. Default is 0.0005.
-    - device (int or str): device to run on, i.e. cuda device=0 or device=0,1,2,3 or device=cpu. Default is None.
 
     Returns:
     - results (Tuple): A tuple containing the training results.
@@ -54,7 +63,6 @@ def train_custom_yolo_model(
     logging.info(f'Initial learning rate: {lr0}')
     logging.info(f'Final learning rate: {lrf}')
     logging.info(f'Weight decay: {weight_decay}')
-    logging.info(f'Device: {device}')
 
     # Train the model
     results = model.train(
@@ -65,9 +73,19 @@ def train_custom_yolo_model(
         lr0=lr0,
         lrf=lrf,
         weight_decay=weight_decay,
-        device=device
     )
 
     logging.info('Training completed.')
 
     return results
+
+
+if __name__ == "__main__":
+    logging.info('About to start executing the train_data component\n')
+    starttime = timeit.default_timer()
+
+    train_custom_yolo_model(DATA, EPOCHS, BATCH, MODEL_NAME, LR0, LRF, WEIGHT_DECAY)
+
+    timing = timeit.default_timer() - starttime
+    logging.info(f'The execution time of this step was:{timing}\n')
+    logging.info('Done executing the train_data component')

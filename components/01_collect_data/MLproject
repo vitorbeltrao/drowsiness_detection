@@ -1,0 +1,10 @@
+name: collect_data
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      DATA_DIR: {type: str, default: '../../data'}
+      NUMBER_IMGS: {type: int, default: 20}
+
+    command: "python collect_data.py {DATA_DIR} {NUMBER_IMGS}"
