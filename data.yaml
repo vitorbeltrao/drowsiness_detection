@@ -1,6 +1,7 @@
 path: /Users/4YouSee/Desktop/computer_vision/drowsiness_detection/data
-train: images  
-val: images  
+train: images/train  
+val: images/val
+test: images/test
 
 # Classes
 nc: 17

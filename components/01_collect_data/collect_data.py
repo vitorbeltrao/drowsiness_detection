@@ -12,6 +12,8 @@ import time
 import uuid
 import logging
 import sys
+import random
+import shutil
 import wandb
 
 logging.basicConfig(
@@ -22,6 +24,9 @@ logging.basicConfig(
 # config
 DATA_DIR = sys.argv[1]
 NUMBER_IMGS = sys.argv[2]
+TRAIN_RATIO = sys.argv[3]
+VAL_RATIO = sys.argv[4]
+TEST_RATIO = sys.argv[5]
 
 
 def collect_images_from_webcam(
@@ -70,9 +75,46 @@ def collect_images_from_webcam(
     cap.release()
     cv2.destroyAllWindows()
 
+def split_images(images_path: str):
+    '''
+    Split the collected images into train, val, and test sets.
+
+    Args:
+        images_path (str): Path to the folder where the images are stored.
+
+    Returns:
+        None
+    '''
+    dest_folders = ['train', 'val', 'test']
+    
+    for folder in dest_folders:
+        os.makedirs(os.path.join(images_path, folder), exist_ok=True)
+    
+    file_list = os.listdir(images_path)
+    random.shuffle(file_list)
+
+    num_files = len(file_list)
+    train_count = int(TRAIN_RATIO * num_files)
+    val_count = int(VAL_RATIO * num_files)
+    
+    for i, file_name in enumerate(file_list):
+        src_path = os.path.join(images_path, file_name)
+        
+        if i < train_count:
+            dest_folder = 'train'
+        elif i < train_count + val_count:
+            dest_folder = 'val'
+        else:
+            dest_folder = 'test'
+        
+        dest_path = os.path.join(images_path, dest_folder, file_name)
+        shutil.move(src_path, dest_path)
+        
+        logging.info(f'Moved {file_name} to {dest_folder} folder.')
 
 if __name__ == "__main__":
     logging.info('About to start executing the collect_data component\n')
+    
     # Create the directory structure if it doesn't exist
     images_dir = os.path.join(DATA_DIR, 'images')
     labels_dir = os.path.join(DATA_DIR, 'labels')
@@ -86,6 +128,9 @@ if __name__ == "__main__":
     logging.info('About to start executing the image collect function')
     collect_images_from_webcam(labels, NUMBER_IMGS, images_dir)
     logging.info('Done executing the image collect function\n')
+
+    # Split the images into train, val, and test sets
+    split_images(images_dir)
 
     run = wandb.init()
     artifact = wandb.Artifact('drowsiness', type='dataset')
