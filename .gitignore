@@ -166,3 +166,4 @@ opencv-4.7.0
 *.jpg
 /data
 /labelImg
+/mlruns
