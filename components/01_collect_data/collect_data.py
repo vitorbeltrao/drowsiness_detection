@@ -75,42 +75,45 @@ def collect_images_from_webcam(
     cap.release()
     cv2.destroyAllWindows()
 
-def split_images(images_path: str):
+def split_images(images_path: str, labels_path: str):
     '''
     Split the collected images into train, val, and test sets.
 
     Args:
         images_path (str): Path to the folder where the images are stored.
+        labels_path (str): Path to the folder where the labels are stored.
 
     Returns:
         None
     '''
     dest_folders = ['train', 'val', 'test']
-    
     for folder in dest_folders:
         os.makedirs(os.path.join(images_path, folder), exist_ok=True)
-    
+        os.makedirs(os.path.join(labels_path, folder), exist_ok=True)
+
     file_list = os.listdir(images_path)
     random.shuffle(file_list)
 
     num_files = len(file_list)
     train_count = int(TRAIN_RATIO * num_files)
     val_count = int(VAL_RATIO * num_files)
-    
+
     for i, file_name in enumerate(file_list):
-        src_path = os.path.join(images_path, file_name)
-        
-        if i < train_count:
-            dest_folder = 'train'
-        elif i < train_count + val_count:
-            dest_folder = 'val'
-        else:
-            dest_folder = 'test'
-        
-        dest_path = os.path.join(images_path, dest_folder, file_name)
-        shutil.move(src_path, dest_path)
-        
-        logging.info(f'Moved {file_name} to {dest_folder} folder.')
+        if file_name.endswith('.jpg'):
+            src_path = os.path.join(images_path, file_name)
+
+            if i < train_count:
+                dest_folder = 'train'
+            elif i < train_count + val_count:
+                dest_folder = 'val'
+            else:
+                dest_folder = 'test'
+            
+            dest_path = os.path.join(images_path, dest_folder)
+            shutil.move(src_path, dest_path)
+
+            logging.info(f'Moved {file_name} to {dest_folder} folder.')
+
 
 if __name__ == "__main__":
     logging.info('About to start executing the collect_data component\n')
@@ -130,11 +133,11 @@ if __name__ == "__main__":
     logging.info('Done executing the image collect function\n')
 
     # Split the images into train, val, and test sets
-    split_images(images_dir)
+    split_images(images_dir, labels_dir)
 
     run = wandb.init()
     artifact = wandb.Artifact('drowsiness', type='dataset')
-    artifact.add_dir(DATA_DIR)
+    artifact.add_dir(DATA_DIR + '/')
     run.log_artifact(artifact) 
     logging.info('Uploaded dataset to wandb: SUCCESS\n')
 

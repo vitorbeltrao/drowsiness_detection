@@ -10,7 +10,7 @@ dependencies:
   - pywin32=305
   - pip:
       - wandb==0.15.4
-      - opencv-python==4.8.0.74
+      - opencv-python==4.7.0
       - playsound==1.3.0
       - ultralytics==8.0.124
       - Pillow==10.0.0
