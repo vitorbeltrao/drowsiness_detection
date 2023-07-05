@@ -14,19 +14,25 @@
 
 This project aims to detect drowsiness using [YOLOv8](https://docs.ultralytics.com/), a state-of-the-art object detection model. The goal is to create a custom model by training it on images collected from a webcam to detect signs of drowsiness, such as closed eyes or head drooping. Once drowsiness is detected, an audio alert is triggered to alert the person and prevent potential accidents. The project focuses on enhancing safety for individuals who drive long distances or work in industries where alertness is crucial, such as shift-based jobs.
 
-![inferences]()
+![inferences](https://github.com/vitorbeltrao/drowsiness_detection/blob/main/images/drowsiness_detection_inferences.png?raw=true)
 ***
 
 ## Files Description <a name="files"></a>
 
 * `data.yaml`: File that guides all model training. If in doubt, see the [documentation](https://docs.ultralytics.com/yolov5/tutorials/train_custom_data/#1-create-dataset).
 
-* `main.py file`: Main file that will orchestrate all inference in real time. Getting the best model and using it in practice.
+* `main.py file`: Main script in Python that runs all the components. All this managed by MLflow Projects.
 
 * `components/`: Directory containing the modularized components for the project. The files listed here are more or less in the order they are called.
 
     * `collect_data.py`: Python module to collect images coming from your own webcam.
     * `train_data.py`: Python module to train your custom model using the own images you collected.
+    * `make_inferences.py`: Python module to make inferences by a photo or video (real time).
+    * `conda.yaml` and `MLproject` files: Mlflow scripts to manage all components above, respectively.
+
+* `conda.yaml`: File that contains all the libraries and their respective versions so that the system works perfectly.
+
+* `environment.yaml`: This file is for creating a virtual conda environment. It contains all the necessary libraries and their respective versions to be created in this virtual environment.
 
 * `tests/`: directory that contains the tests for the functions that are in `components/`.
 
@@ -51,7 +57,38 @@ and go into the repository:
 
 `cd drowsiness_detection` 
 
-### Collect your own images
+### Create the environment
+
+Make sure to have conda installed and ready, then create a new environment using the *environment.yaml* file provided in the root of the repository and activate it. This file contain list of module needed to run the project:
+
+`conda env create -f environment.yaml`
+`conda activate drowsiness_detection`
+
+### Get API key for Weights and Biases
+
+Let's make sure we are logged in to Weights & Biases. Get your API key from W&B by going to https://wandb.ai/authorize and click on the + icon (copy to clipboard), then paste your key into this command:
+
+`wandb login [your API key]`
+
+You should see a message similar to:
+
+`wandb: Appending key for api.wandb.ai to your netrc file: /home/[your username]/.netrc`
+
+### 1° - Collect your own images
+
+The first step in our pipeline is to get our images to feed the YOLOV8 custom model. To do this, just run `mlflow run . -P steps=collect_data`. 
+
+With this command you will execute the first step of the pipeline and automatically your webcam will start, collect your images and move them to a folder in the main directory of the project called *data*. Inside the data folder it will automatically move the collected images randomly and proportionally dividing the images for *train*, *validation* and *test*.
+
+After that you will have to label your images manually. For this we will use the [labelimg](https://github.com/heartexlabs/labelImg) package. After cloning the package here are the things that you need to do:
+
+* Install `conda install -c anaconda pyqt` and `conda install -c conda-forge lxml` packages.
+
+* Change to `cd labelimg` directory and run `python labelimg.py`. 
+
+With that, the labelimg screen will open. To use labelimg, you should follow this [link](https://www.youtube.com/watch?v=tFNJGim3FXw&t=3139s) and and watch from minute *52:20*. This video, by this author, helped me a lot to develop this project!
+
+### 2° - Train your custom model
 
 In progress...
 
