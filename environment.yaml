@@ -8,7 +8,7 @@ dependencies:
   - mlflow=2.4.1
   - pip=23.1.2
   - pywin32=305
-  - opencv-python=4.8.0
+  - py-opencv=4.7.0
   - pip:
       - wandb==0.15.4
       - playsound==1.3.0
