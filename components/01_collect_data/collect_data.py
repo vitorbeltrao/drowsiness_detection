@@ -23,10 +23,10 @@ logging.basicConfig(
 
 # config
 DATA_DIR = sys.argv[1]
-NUMBER_IMGS = sys.argv[2]
-TRAIN_RATIO = sys.argv[3]
-VAL_RATIO = sys.argv[4]
-TEST_RATIO = sys.argv[5]
+NUMBER_IMGS = int(sys.argv[2])
+TRAIN_RATIO = float(sys.argv[3])
+VAL_RATIO = float(sys.argv[4])
+TEST_RATIO = float(sys.argv[5])
 
 
 def collect_images_from_webcam(
