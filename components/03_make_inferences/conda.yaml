@@ -5,7 +5,7 @@ channels:
 dependencies:
   - pip=23.1.2
   - mlflow=2.4.1
-  - opencv-python==4.8.0.74
-  - ultralytics==8.0.124
-  - matplotlib==3.7.1
-  - Pillow==10.0.0
+  - opencv-python=4.8.0
+  - ultralytics=8.0.124
+  - matplotlib=3.7.1
+  - Pillow=10.0.0
