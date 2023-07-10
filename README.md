@@ -90,7 +90,15 @@ With that, the labelimg screen will open. To use labelimg, you should follow thi
 
 ### 2° - Train your custom model
 
-In progress...
+After collecting the data, the second step is to train our custom model. To do this, just run `mlflow run . -P steps=train_data`. 
+
+To train the model, we cannot forget to create the `data.yaml` file, to guide the model where it should find the data to be trained. At the end of the training, the final trained models will be in a folder called [bla] and you will be able to use them to make your inferences.
+
+### 3° - Make inferences
+
+After training the model in the previous step, you will use the best saved model to make inferences in real time on your webcam or on any image you want. To do this, just run `mlflow run . -P steps=make_inferences`. 
+
+When running this command, your webcam will open automatically making inferences automatically.
 
 ### Testing
 
