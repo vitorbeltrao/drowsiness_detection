@@ -19,12 +19,12 @@ logging.basicConfig(
 
 # config
 DATA = sys.argv[1]
-EPOCHS = sys.argv[2]
-BATCH = sys.argv[3]
+EPOCHS = int(sys.argv[2])
+BATCH = int(sys.argv[3])
 MODEL_NAME = sys.argv[4]
-LR0 = sys.argv[5]
-LRF = sys.argv[6]
-WEIGHT_DECAY = sys.argv[7]
+LR0 = int(sys.argv[5])
+LRF = int(sys.argv[6])
+WEIGHT_DECAY = int(sys.argv[7])
 
 
 def train_custom_yolo_model(
