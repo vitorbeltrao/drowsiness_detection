@@ -167,4 +167,5 @@ opencv-4.7.0
 /data
 /labelImg
 /mlruns
+/components/01_collect_data/wandb
 /components/02_train_data/wandb
