@@ -7,5 +7,3 @@ dependencies:
   - mlflow=2.4.1
   - py-opencv=4.7.0
   - ultralytics=8.0.124
-  - matplotlib=3.7.1
-  - Pillow=10.0.0
