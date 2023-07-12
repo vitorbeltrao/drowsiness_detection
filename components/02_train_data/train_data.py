@@ -10,6 +10,7 @@ Date: June/2023
 import logging
 import timeit
 import sys
+import os
 from ultralytics import YOLO
 
 logging.basicConfig(
@@ -84,6 +85,7 @@ if __name__ == "__main__":
     logging.info('About to start executing the train_data component\n')
     starttime = timeit.default_timer()
 
+    os.environ['KMP_DUPLICATE_LIB_OK']='True'
     train_custom_yolo_model(DATA, EPOCHS, BATCH, MODEL_NAME, LR0, LRF, WEIGHT_DECAY)
 
     timing = timeit.default_timer() - starttime

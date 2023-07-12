@@ -119,9 +119,11 @@ if __name__ == "__main__":
     logging.info('About to start executing the collect_data component\n')
     
     # Create the directory structure if it doesn't exist
+    temp_dir = os.path.join(DATA_DIR, 'images', 'temp')
     images_dir = os.path.join(DATA_DIR, 'images')
     labels_dir = os.path.join(DATA_DIR, 'labels')
     
+    os.makedirs(temp_dir)
     os.makedirs(images_dir, exist_ok=True)
     os.makedirs(labels_dir, exist_ok=True)
 
@@ -129,11 +131,12 @@ if __name__ == "__main__":
     labels = ['awake', 'drowsy']
 
     logging.info('About to start executing the image collect function')
-    collect_images_from_webcam(labels, NUMBER_IMGS, images_dir)
+    collect_images_from_webcam(labels, NUMBER_IMGS, images_dir + '/temp')
     logging.info('Done executing the image collect function\n')
 
     # Split the images into train, val, and test sets
-    split_images(images_dir, labels_dir)
+    split_images(images_dir + '/temp', labels_dir)
+    os.remove(images_dir + '/temp')
 
     run = wandb.init()
     artifact = wandb.Artifact('drowsiness', type='dataset')
