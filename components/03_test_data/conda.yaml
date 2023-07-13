@@ -1,0 +1,9 @@
+name: test_data
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pip=23.1.2
+  - mlflow=2.4.1
+  - py-opencv=4.7.0
+  - ultralytics=8.0.124
