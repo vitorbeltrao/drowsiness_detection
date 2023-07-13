@@ -1,4 +1,4 @@
-name: make_inferences
+name: deployment
 conda_env: conda.yaml
 
 entry_points:
