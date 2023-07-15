@@ -10,6 +10,7 @@ Date: June/2023
 import logging
 import sys
 import cv2
+import pygame
 from ultralytics import YOLO
 
 logging.basicConfig(
@@ -62,6 +63,24 @@ def inference_video(yolo_model_path: str, id_video: int) -> None:
 
     # Close the frame window
     cv2.destroyAllWindows()
+
+
+def play_alarm_sound():
+    # Inicialize o mixer do pygame
+    pygame.mixer.init()
+
+    # Carregue o arquivo de som
+    sound = pygame.mixer.Sound('alarm.wav')
+
+    # Reproduza o som do alarme
+    sound.play()
+
+    # Aguarde até que o som termine de ser reproduzido
+    pygame.time.wait(int(sound.get_length() * 1000))
+
+    # Pare de reproduzir o som e libere os recursos
+    sound.stop()
+    pygame.mixer.quit()
 
 
 if __name__ == "__main__":
