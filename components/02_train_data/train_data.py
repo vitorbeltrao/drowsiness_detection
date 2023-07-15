@@ -11,6 +11,7 @@ import logging
 import timeit
 import sys
 import os
+import torch
 from ultralytics import YOLO
 
 logging.basicConfig(
