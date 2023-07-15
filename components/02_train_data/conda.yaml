@@ -8,4 +8,4 @@ dependencies:
   - ultralytics=8.0.124
   - pip:
     - wandb==0.15.4
-    - torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117
+    - torch==2.0.1
