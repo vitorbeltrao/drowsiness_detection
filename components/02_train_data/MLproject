@@ -8,8 +8,8 @@ entry_points:
       EPOCHS: {type: int, default: 20}
       BATCH: {type: int, default: 8}
       MODEL_NAME: {type: str, default: 'yolov8n_drowsiness'}
-      LR0: {type: int, default: 0.01}
-      LRF: {type: int, default: 0.01}
-      WEIGHT_DECAY: {type: int, default: 0.0005}
+      LR0: {type: float, default: 0.01}
+      LRF: {type: float, default: 0.01}
+      WEIGHT_DECAY: {type: float, default: 0.0005}
     
     command: "python train_data.py {DATA} {EPOCHS} {BATCH} {MODEL_NAME} {LR0} {LRF} {WEIGHT_DECAY}"

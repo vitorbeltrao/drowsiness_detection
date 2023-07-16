@@ -24,9 +24,9 @@ DATA = sys.argv[1]
 EPOCHS = int(sys.argv[2])
 BATCH = int(sys.argv[3])
 MODEL_NAME = sys.argv[4]
-LR0 = int(sys.argv[5])
-LRF = int(sys.argv[6])
-WEIGHT_DECAY = int(sys.argv[7])
+LR0 = float(sys.argv[5])
+LRF = float(sys.argv[6])
+WEIGHT_DECAY = float(sys.argv[7])
 
 
 def train_custom_yolo_model(
