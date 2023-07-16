@@ -12,6 +12,7 @@ import timeit
 import sys
 import os
 import torch
+import wandb
 from ultralytics import YOLO
 
 logging.basicConfig(
@@ -85,6 +86,13 @@ def train_custom_yolo_model(
 if __name__ == "__main__":
     logging.info('About to start executing the train_data component\n')
     starttime = timeit.default_timer()
+
+    # upload artifact to wandb
+    wandb.init(
+        project='drowsiness_detection',
+        entity='vitorabdo',
+        job_type='Yolo model')
+    logging.info('Creating run for drowsiness detection: SUCCESS\n')
 
     os.environ['KMP_DUPLICATE_LIB_OK']='True'
     train_custom_yolo_model(DATA, EPOCHS, BATCH, MODEL_NAME, LR0, LRF, WEIGHT_DECAY)
