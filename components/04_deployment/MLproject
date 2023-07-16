@@ -6,7 +6,5 @@ entry_points:
     parameters:
       PROD_DEPLOYMENT_PATH: {type: str, default: '../../prod_deployment_path'}
       FINAL_MODEL: {type: str, default: 'vitorabdo/risk_assessment/final_model_pipe:prod'}
-      LATEST_SCORES_PATH: {type: str, default: '../06_test_model/'}
-      INGESTED_FILE_PATH: {type: str, default: '../01_upload_raw_data/'}
     
-    command: "python deployment.py {PROD_DEPLOYMENT_PATH} {FINAL_MODEL} {LATEST_SCORES_PATH} {INGESTED_FILE_PATH}"
+    command: "python deployment.py {PROD_DEPLOYMENT_PATH} {FINAL_MODEL}"

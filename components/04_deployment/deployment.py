@@ -21,8 +21,6 @@ logging.basicConfig(
 # config
 PROD_DEPLOYMENT_PATH = sys.argv[1]
 FINAL_MODEL = sys.argv[2]
-LATEST_SCORES_PATH = sys.argv[3]
-INGESTED_FILE_PATH = sys.argv[4]
 
 
 def deploy_model(prod_deployment_path: str, 
@@ -54,22 +52,14 @@ def deploy_model(prod_deployment_path: str,
         project='risk_assessment',
         entity='vitorabdo',
         job_type='deployment')
-    model_local_path = run.use_artifact(final_model, type='pickle').download()
+    model_local_path = run.use_artifact(final_model, type='pt').download()
  
-    # 2. latest scores of the model
-    score_path = latest_scores_path
- 
-    # 3. ingested files
-    ingested_path = ingested_files_path
-
     # create production deployment folder if it doesnt exists
     if not os.path.isdir(prod_deployment_path):
         os.mkdir(prod_deployment_path)
 
     # copy files to the production deployment folder
-    shutil.copy(os.path.join(model_local_path, 'model.pkl'), prod_deployment_path) # copy pickle
-    shutil.copy(os.path.join(score_path, 'actual_metrics_output'), prod_deployment_path) # copy scores
-    shutil.copy(os.path.join(ingested_path, 'ingested_files'), prod_deployment_path) # copy ingested files
+    shutil.copy(os.path.join(model_local_path, 'best_model.pt'), prod_deployment_path) # copy pickle
     logging.info('Copied files: SUCCESS')
 
 
