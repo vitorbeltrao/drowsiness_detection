@@ -80,7 +80,7 @@ def train_custom_yolo_model(
 
     logging.info('Training completed.')
 
-    results.save(save_dir='best_model.pt')
+    model.save_model(save_dir='best_model.pt')
     logging.info('Best model saved.')
 
     return results
