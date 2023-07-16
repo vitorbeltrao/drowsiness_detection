@@ -80,6 +80,9 @@ def train_custom_yolo_model(
 
     logging.info('Training completed.')
 
+    results.save(save_dir='best_model.pt')
+    logging.info('Best model saved.')
+
     return results
 
 
@@ -88,7 +91,7 @@ if __name__ == "__main__":
     starttime = timeit.default_timer()
 
     # upload artifact to wandb
-    wandb.init(
+    run = wandb.init(
         project='drowsiness_detection',
         entity='vitorabdo',
         job_type='Yolo model')
@@ -96,6 +99,11 @@ if __name__ == "__main__":
 
     os.environ['KMP_DUPLICATE_LIB_OK']='True'
     train_custom_yolo_model(DATA, EPOCHS, BATCH, MODEL_NAME, LR0, LRF, WEIGHT_DECAY)
+
+    artifact = wandb.Artifact('drowsiness', type='yolo_model')
+    wandb.save('best_model.pt')
+    run.finish()
+    logging.info('Uploaded best model to wandb: SUCCESS\n')
 
     timing = timeit.default_timer() - starttime
     logging.info(f'The execution time of this step was:{timing}\n')
