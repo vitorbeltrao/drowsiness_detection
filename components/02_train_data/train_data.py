@@ -11,6 +11,7 @@ import logging
 import timeit
 import sys
 import os
+import shutil
 import torch
 import wandb
 from ultralytics import YOLO
@@ -101,20 +102,22 @@ if __name__ == "__main__":
     logging.info(f'The execution time of this step was:{timing}\n')
 
     # get the best model and upload in wandb
-    best_model_path = os.path.join('..', '..', 'runs', 'weights', 'best.pt')
+    weights_directory = '../../runs/detect/yolov8n_drowsiness/weights/best.pt'
+
     artifact = wandb.Artifact(
         name='best_model_pipe',
         type='pt',
         description='Final model pipeline after training, exported in the correct format for making inferences'
         )
-    artifact.add_file(best_model_path)
+    with open(weights_directory, 'rb') as file:
+        artifact.add_file(file, name='best.pt')
     run.log_artifact(artifact)
     artifact.wait()
     run.finish()
     logging.info('Uploaded best model to wandb: SUCCESS\n')
 
     # remove the folder that are the best model
-    os.remove(best_model_path)
+    shutil.rmtree('../../runs')
     logging.info('Runs folder deleted: SUCCESS\n')
 
     logging.info('Done executing the train_data component')
