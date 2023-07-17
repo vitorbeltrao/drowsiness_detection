@@ -86,21 +86,35 @@ if __name__ == "__main__":
     logging.info('About to start executing the train_data component\n')
     starttime = timeit.default_timer()
 
-    # upload artifact to wandb
+    # init run in wandb
     run = wandb.init(
         project='drowsiness_detection',
         entity='vitorabdo',
-        job_type='Yolo model')
+        job_type='Yolo train model')
     logging.info('Creating run for drowsiness detection: SUCCESS\n')
 
+    # train the custom model
     os.environ['KMP_DUPLICATE_LIB_OK']='True'
     train_custom_yolo_model(DATA, EPOCHS, BATCH, MODEL_NAME, LR0, LRF, WEIGHT_DECAY)
 
-    artifact = wandb.Artifact('drowsiness', type='yolo_model')
-    wandb.save('best_model.pt')
+    timing = timeit.default_timer() - starttime
+    logging.info(f'The execution time of this step was:{timing}\n')
+
+    # get the best model and upload in wandb
+    best_model_path = os.path.join('..', '..', 'runs', 'weights', 'best.pt')
+    artifact = wandb.Artifact(
+        name='best_model_pipe',
+        type='pt',
+        description='Final model pipeline after training, exported in the correct format for making inferences'
+        )
+    artifact.add_file(best_model_path)
+    run.log_artifact(artifact)
+    artifact.wait()
     run.finish()
     logging.info('Uploaded best model to wandb: SUCCESS\n')
 
-    timing = timeit.default_timer() - starttime
-    logging.info(f'The execution time of this step was:{timing}\n')
+    # remove the folder that are the best model
+    os.remove(best_model_path)
+    logging.info('Runs folder deleted: SUCCESS\n')
+
     logging.info('Done executing the train_data component')
