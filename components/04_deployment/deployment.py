@@ -65,5 +65,5 @@ def deploy_model(prod_deployment_path: str,
 
 if __name__ == '__main__':
     logging.info('About to start executing the deployment function')
-    deploy_model(PROD_DEPLOYMENT_PATH, FINAL_MODEL, LATEST_SCORES_PATH, INGESTED_FILE_PATH)
+    deploy_model(PROD_DEPLOYMENT_PATH, FINAL_MODEL)
     logging.info('Done executing the deployment function')

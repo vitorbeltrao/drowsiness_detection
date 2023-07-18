@@ -109,8 +109,7 @@ if __name__ == "__main__":
         type='pt',
         description='Final model pipeline after training, exported in the correct format for making inferences'
         )
-    with open(weights_directory, 'rb') as file:
-        artifact.add_file(file, name='best.pt')
+    artifact.add_file(weights_directory, name='best.pt')
     run.log_artifact(artifact)
     artifact.wait()
     run.finish()
