@@ -16,9 +16,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--steps', type=str, default='all', help='Steps to execute')
 
 _steps = [
-    'collect_data',
+    # 'collect_data',
     'train_data',
-    'make_inferences']
+    'test_data',
+    'deployment'
+]
 
 
 def main():
@@ -45,9 +47,13 @@ def main():
         project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/02_train_data'
         mlflow.run(project_uri, parameters={'steps': 'train_data'})
 
-    if 'make_inferences' in active_steps:
-        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/03_make_inferences'
-        mlflow.run(project_uri, parameters={'steps': 'make_inferences'})
+    if 'test_data' in active_steps:
+        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/03_test_data'
+        mlflow.run(project_uri, parameters={'steps': 'test_data'})
+    
+    if 'deployment' in active_steps:
+        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/04_deployment'
+        mlflow.run(project_uri, parameters={'steps': 'deployment'})
 
 
 if __name__ == "__main__":
