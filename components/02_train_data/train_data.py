@@ -29,6 +29,7 @@ MODEL_NAME = sys.argv[4]
 LR0 = float(sys.argv[5])
 LRF = float(sys.argv[6])
 WEIGHT_DECAY = float(sys.argv[7])
+BEST_MODEL_PATH = sys.argv[8]
 
 
 def train_custom_yolo_model(
@@ -102,7 +103,7 @@ if __name__ == "__main__":
     logging.info(f'The execution time of this step was:{timing}\n')
 
     # get the best model and upload in wandb
-    weights_directory = '../../runs/detect/yolov8n_drowsiness/weights/best.pt'
+    weights_directory = BEST_MODEL_PATH
 
     artifact = wandb.Artifact(
         name='best_model_pipe',

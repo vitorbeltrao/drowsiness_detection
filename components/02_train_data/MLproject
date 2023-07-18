@@ -5,11 +5,12 @@ entry_points:
   main:
     parameters:
       DATA: {type: str, default: '../../data.yaml'}
-      EPOCHS: {type: int, default: 20}
+      EPOCHS: {type: int, default: 3}
       BATCH: {type: int, default: 8}
       MODEL_NAME: {type: str, default: 'yolov8n_drowsiness'}
       LR0: {type: float, default: 0.01}
       LRF: {type: float, default: 0.01}
       WEIGHT_DECAY: {type: float, default: 0.0005}
+      BEST_MODEL_PATH: {type: str, default: 'Users/4YouSee/Desktop/computer_vision/drowsiness_detection/runs/detect/yolov8n_drowsiness/weights/best.pt'}
     
-    command: "python train_data.py {DATA} {EPOCHS} {BATCH} {MODEL_NAME} {LR0} {LRF} {WEIGHT_DECAY}"
+    command: "python train_data.py {DATA} {EPOCHS} {BATCH} {MODEL_NAME} {LR0} {LRF} {WEIGHT_DECAY} {BEST_MODEL_PATH}"
