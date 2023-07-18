@@ -11,6 +11,6 @@ entry_points:
       LR0: {type: float, default: 0.01}
       LRF: {type: float, default: 0.01}
       WEIGHT_DECAY: {type: float, default: 0.0005}
-      BEST_MODEL_PATH: {type: str, default: 'Users/4YouSee/Desktop/computer_vision/drowsiness_detection/runs/detect/yolov8n_drowsiness/weights/best.pt'}
+      BEST_MODEL_PATH: {type: str, default: 'C:/Users/4YouSee/Desktop/computer_vision/drowsiness_detection/runs/detect/yolov8n_drowsiness/weights/best.pt'}
     
     command: "python train_data.py {DATA} {EPOCHS} {BATCH} {MODEL_NAME} {LR0} {LRF} {WEIGHT_DECAY} {BEST_MODEL_PATH}"
