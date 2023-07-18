@@ -5,6 +5,6 @@ entry_points:
   main:
     parameters:
       PROD_DEPLOYMENT_PATH: {type: str, default: '../../prod_deployment_path'}
-      FINAL_MODEL: {type: str, default: 'vitorabdo/risk_assessment/final_model_pipe:prod'}
+      FINAL_MODEL: {type: str, default: 'vitorabdo/drowsiness_detection/best_model_pipe:prod'}
     
     command: "python deployment.py {PROD_DEPLOYMENT_PATH} {FINAL_MODEL}"
