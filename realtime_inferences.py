@@ -85,5 +85,10 @@ def play_alarm_sound():
 
 if __name__ == "__main__":
     logging.info('About to start executing the real time inferences component\n')
-    inference_video(YOLO_MODEL_PATH, ID_VIDEO)
+    # inference_video(YOLO_MODEL_PATH, ID_VIDEO)
+    result = 'drowsiness'
+    # Check if "drowsiness" is predicted
+    if result == 'drowsiness':
+    # Trigger the alarm (you can replace this with your own alarm logic)
+        play_alarm_sound()
     logging.info('Done executing the real time inferences component')
