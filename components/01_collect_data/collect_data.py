@@ -145,6 +145,7 @@ if __name__ == "__main__":
     artifact = wandb.Artifact('drowsiness', type='dataset')
     artifact.add_dir(DATA_DIR)
     run.log_artifact(artifact) 
+    run.finish()
     logging.info('Uploaded dataset to wandb: SUCCESS\n')
 
     logging.info('Done executing the collect_data component')

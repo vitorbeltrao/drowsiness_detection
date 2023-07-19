@@ -30,6 +30,7 @@ LR0 = float(sys.argv[5])
 LRF = float(sys.argv[6])
 WEIGHT_DECAY = float(sys.argv[7])
 BEST_MODEL_PATH = sys.argv[8]
+RUNS_PATH = sys.argv[9]
 
 
 def train_custom_yolo_model(
@@ -117,7 +118,7 @@ if __name__ == "__main__":
     logging.info('Uploaded best model to wandb: SUCCESS\n')
 
     # remove the folder that are the best model
-    shutil.rmtree('../../runs')
+    shutil.rmtree(RUNS_PATH)
     logging.info('Runs folder deleted: SUCCESS\n')
 
     logging.info('Done executing the train_data component')
