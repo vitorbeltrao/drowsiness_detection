@@ -7,3 +7,4 @@ dependencies:
   - ultralytics=8.0.124
   - pip:
     - wandb==0.15.4
+    - torch==2.0.1
