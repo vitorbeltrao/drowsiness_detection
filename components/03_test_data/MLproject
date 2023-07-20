@@ -4,7 +4,7 @@ conda_env: conda.yaml
 entry_points:
   main:
     parameters:
-      YOLO_MODEL_PATH: {type: str, default: '../02_train_data/best_model.pt'}
-      DATA: {type: str, default: '../../data.yaml'}
+      YOLO_MODEL_PATH: {type: str, default: 'C:/Users/4YouSee/Desktop/computer_vision/drowsiness_detection/components/02_train_data/best.pt'}
+      TEST_DATA_PATH: {type: str, default: 'C:/Users/4YouSee/Desktop/computer_vision/drowsiness_detection/data/images/test/'}
 
-    command: "python test_data.py --data {DATA} --weights {YOLO_MODEL_PATH}"
+    command: "python test_data.py {TEST_DATA_PATH} {YOLO_MODEL_PATH}"

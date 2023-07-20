@@ -25,11 +25,26 @@ This project aims to detect drowsiness using [YOLOv8](https://docs.ultralytics.c
 
 * `components/`: Directory containing the modularized components for the project. The files listed here are more or less in the order they are called.
 
-    * `collect_data.py`: Python module to collect images coming from your own webcam.
-    * `train_data.py`: Python module to train your custom model using the own images you collected.
-    * `make_inferences.py`: Python module to make inferences by a photo or video (real time).
-    * `conda.yaml` and `MLproject` files: Mlflow scripts to manage all components above, respectively.
+    * `01_collect_data`: Folder containing all files needed to use the component with mlflow.
+        * `collect_data.py`: Python module to collect images coming from your own webcam.
+        * `conda.yaml`: File that guides the installation of the necessary packages for the component to run.
+        * `MLproject`: File that guides how the component runs and its parameters.
 
+    * `02_train_data`: Folder containing all files needed to use the component with mlflow.
+        * `train_data.py`: Python module to train your custom model using the own images you collected.
+        * `conda.yaml`: File that guides the installation of the necessary packages for the component to run.
+        * `MLproject`: File that guides how the component runs and its parameters.
+
+    * `03_test_data`: Folder containing all files needed to use the component with mlflow.
+        * `test_data.py`: Python module that makes inferences on test data.
+        * `conda.yaml`: File that guides the installation of the necessary packages for the component to run.
+        * `MLproject`: File that guides how the component runs and its parameters.
+    
+    * `04_deployment`: Folder containing all files needed to use the component with mlflow.
+        * `deployment.py`: Python module that takes the best trained and tested module and moves it to a local folder to avoid latencies.
+        * `conda.yaml`: File that guides the installation of the necessary packages for the component to run.
+        * `MLproject`: File that guides how the component runs and its parameters.
+  
 * `conda.yaml`: File that contains all the libraries and their respective versions so that the system works perfectly.
 
 * `environment.yaml`: This file is for creating a virtual conda environment. It contains all the necessary libraries and their respective versions to be created in this virtual environment.
@@ -42,6 +57,8 @@ This project aims to detect drowsiness using [YOLOv8](https://docs.ultralytics.c
     * `conftest.py`: File where the fixtures were created to feed the unit tests.
 
 * `alarm.wav`: File that contains the audio for the drowsiness detection.
+
+* `realtime_inferences.py`: File that obtains the best model in the `/prod_deployment_path` folder and makes inferences in real time and triggers the alarm if we detect that the person is sleepy.
 ***
 
 ## Running Files <a name="running"></a>
@@ -92,13 +109,21 @@ With that, the labelimg screen will open. To use labelimg, you should follow thi
 
 After collecting the data, the second step is to train our custom model. To do this, just run `mlflow run . -P steps=train_data`. 
 
-To train the model, we cannot forget to create the `data.yaml` file, to guide the model where it should find the data to be trained. At the end of the training, the final trained models will be in a folder called [bla] and you will be able to use them to make your inferences.
+To train the model, we cannot forget to create the `data.yaml` file, to guide the model where it should find the data to be trained. At the end of the training, the final trained models will be uploaded in *wandb* to track our artifacts and in the same folder that our train data component are and you will be able to use them to make your inferences.
 
-### 3° - Make inferences
+### 3° - Test your model
 
-After training the model in the previous step, you will use the best saved model to make inferences in real time on your webcam or on any image you want. To do this, just run `mlflow run . -P steps=make_inferences`. 
+After training and validating the model, it is good practice in a machine learning system to test it on never-before-seen images to evaluate its performance. To do this, just run `mlflow run . -P steps=test_data`. 
 
-When running this command, your webcam will open automatically making inferences automatically.
+After that, model metrics will be automatically uploaded to wandb for further analysis.
+
+### 4° - Deployment
+
+This component exists only to organize things and download the best model tracked by wandb and avoid latencies when we are going to make inferences in real time. Basically we get the production model from the wandb and put it in a local folder: `/prod_deployment_path`. To do this, just run `mlflow run . -P steps=deployment`. 
+
+### Run everything together
+
+From step 2 (train your custom model) to step 4 (deployment), you can run everything at once automatically managed by mlflow just by running: `mlflow run .`
 
 ### Testing
 
