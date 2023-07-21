@@ -8,7 +8,6 @@ Date: June/2023
 
 # import necessary packages
 import logging
-import sys
 import cv2
 import pygame
 from ultralytics import YOLO
@@ -19,8 +18,40 @@ logging.basicConfig(
     format='%(name)s - %(levelname)s - %(message)s')
 
 # config
-YOLO_MODEL_PATH = sys.argv[1]
-ID_VIDEO = sys.argv[2]
+YOLO_MODEL_PATH = 'prod_deployment_path/best.pt'
+ID_VIDEO = 0
+
+
+def play_alarm_sound() -> None:
+    '''
+    Play the alarm sound.
+
+    This function initializes the Pygame mixer, loads the sound file, plays the alarm sound,
+    waits until the sound finishes playing, and then stops playing the sound and releases the resources.
+
+    Note: Make sure to have the 'alarm.wav' sound file present in the working directory.
+
+    Args:
+        None
+
+    Returns:
+        None
+    '''
+    # Initialize Pygame mixer
+    pygame.mixer.init()
+
+    # Load the sound file
+    sound = pygame.mixer.Sound('alarm.wav')
+
+    # Play the alarm sound
+    sound.play()
+
+    # Wait until the sound finishes playing
+    pygame.time.wait(int(sound.get_length() * 1000))
+
+    # Stop playing the sound and release resources
+    sound.stop()
+    pygame.mixer.quit()
 
 
 def inference_video(yolo_model_path: str, id_video: int) -> None:
@@ -65,30 +96,7 @@ def inference_video(yolo_model_path: str, id_video: int) -> None:
     cv2.destroyAllWindows()
 
 
-def play_alarm_sound():
-    # Inicialize o mixer do pygame
-    pygame.mixer.init()
-
-    # Carregue o arquivo de som
-    sound = pygame.mixer.Sound('alarm.wav')
-
-    # Reproduza o som do alarme
-    sound.play()
-
-    # Aguarde até que o som termine de ser reproduzido
-    pygame.time.wait(int(sound.get_length() * 1000))
-
-    # Pare de reproduzir o som e libere os recursos
-    sound.stop()
-    pygame.mixer.quit()
-
-
 if __name__ == "__main__":
     logging.info('About to start executing the real time inferences component\n')
-    # inference_video(YOLO_MODEL_PATH, ID_VIDEO)
-    result = 'drowsiness'
-    # Check if "drowsiness" is predicted
-    if result == 'drowsiness':
-    # Trigger the alarm (you can replace this with your own alarm logic)
-        play_alarm_sound()
+    inference_video(YOLO_MODEL_PATH, ID_VIDEO)
     logging.info('Done executing the real time inferences component')
