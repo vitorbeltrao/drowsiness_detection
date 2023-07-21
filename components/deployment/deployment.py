@@ -31,7 +31,7 @@ def deploy_model(prod_deployment_path: str,
     :param prod_deployment_path: (str)
     Folder in the main directory where the production files will be copied
 
-    :param final_model: (pickle)
+    :param final_model: (str)
     Yolo weights file with all saved model pipeline
     '''
     logging.info(
@@ -43,7 +43,11 @@ def deploy_model(prod_deployment_path: str,
         project='drowsiness_detection',
         entity='vitorabdo',
         job_type='deployment')
-    model_local_path = run.use_artifact(final_model, type='pt').download()
+    
+    artifact = run.use_artifact(final_model, type='pt')
+    artifact_dir = artifact.download()  # Diretório onde os artefatos são baixados
+    model_local_path = os.path.join(artifact_dir, 'best_model_pipe.pt')  # Caminho correto do arquivo
+
     run.finish()
  
     # create production deployment folder if it doesnt exists
@@ -51,7 +55,7 @@ def deploy_model(prod_deployment_path: str,
         os.mkdir(prod_deployment_path)
 
     # copy files to the production deployment folder
-    shutil.copy(os.path.join(model_local_path, 'best_model_pipe.pt'), prod_deployment_path) # copy .pt file
+    shutil.copy(model_local_path, prod_deployment_path) # copy .pt file
     logging.info('Copied files: SUCCESS')
 
 
