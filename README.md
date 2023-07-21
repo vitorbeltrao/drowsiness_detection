@@ -51,10 +51,7 @@ This project aims to detect drowsiness using [YOLOv8](https://docs.ultralytics.c
 
 * `tests/`: directory that contains the tests for the functions that are in `components/`.
 
-    * `test_collector.py`: Unit tests for the functions of the respective component (data_extract.py).
-    * `test_transform.py`: Unit tests for the functions of the respective component (data_transform.py).
-    * `test_load.py`: Unit tests for the functions of the respective component (data_load.py).
-    * `conftest.py`: File where the fixtures were created to feed the unit tests.
+    * `test_train_data.py`: Unit tests for the functions of the respective component (train_data).
 
 * `alarm.wav`: File that contains the audio for the drowsiness detection.
 
@@ -136,7 +133,7 @@ From step 2 (train your custom model) to step 4 (deployment), you can run everyt
 
 ## Inference and Alert System <a name="inference"></a>
 
-The `main.py` script performs real-time inference using the trained model on webcam data. It detects signs of drowsiness and triggers an audio alert if drowsiness is detected. You can customize the alert mechanism according to your requirements. The script uses the trained model weights generated during the training phase.
+The `realtime_inferences.py` script performs real-time inference using the trained model on webcam data. It detects signs of drowsiness and triggers an audio alert if drowsiness is detected. You can customize the alert mechanism according to your requirements. The script uses the trained model weights generated during the training phase.
 ***
 
 ## Potential Applications <a name="applications"></a>

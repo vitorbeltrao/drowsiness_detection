@@ -40,7 +40,7 @@ def deploy_model(prod_deployment_path: str,
 
     # obtaining the necessary files
     run = wandb.init(
-        project='risk_assessment',
+        project='drowsiness_detection',
         entity='vitorabdo',
         job_type='deployment')
     model_local_path = run.use_artifact(final_model, type='pt').download()
