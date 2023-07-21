@@ -46,16 +46,15 @@ def deploy_model(prod_deployment_path: str,
     
     artifact = run.use_artifact(final_model, type='pt')
     artifact_dir = artifact.download()  # Diretório onde os artefatos são baixados
-    model_local_path = os.path.join(artifact_dir, 'best_model_pipe.pt')  # Caminho correto do arquivo
-
-    run.finish()
+    model_local_path = os.path.join(artifact_dir)  # Caminho correto do arquivo
  
     # create production deployment folder if it doesnt exists
     if not os.path.isdir(prod_deployment_path):
         os.mkdir(prod_deployment_path)
 
     # copy files to the production deployment folder
-    shutil.copy(model_local_path, prod_deployment_path) # copy .pt file
+    shutil.copy(os.path.join(model_local_path, 'best.pt'), prod_deployment_path) # copy .pt file
+    run.finish()
     logging.info('Copied files: SUCCESS')
 
 

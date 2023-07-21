@@ -171,3 +171,4 @@ opencv-4.7.0
 /components/train_data/wandb
 /components/test_data/wandb
 /components/deployment/wandb
+/components/deployment/artifacts
