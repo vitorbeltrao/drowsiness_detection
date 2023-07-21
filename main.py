@@ -40,19 +40,19 @@ def main():
     active_steps = steps_par.split(',') if steps_par != 'all' else _steps
 
     if 'collect_data' in active_steps:
-        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/01_collect_data'
+        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/collect_data'
         mlflow.run(project_uri, parameters={'steps': 'collect_data'})
 
     if 'train_data' in active_steps:
-        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/02_train_data'
+        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/train_data'
         mlflow.run(project_uri, parameters={'steps': 'train_data'})
 
     if 'test_data' in active_steps:
-        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/03_test_data'
+        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/test_data'
         mlflow.run(project_uri, parameters={'steps': 'test_data'})
     
     if 'deployment' in active_steps:
-        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/04_deployment'
+        project_uri = 'https://github.com/vitorbeltrao/drowsiness_detection#components/deployment'
         mlflow.run(project_uri, parameters={'steps': 'deployment'})
 
 
