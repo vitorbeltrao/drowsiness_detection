@@ -1,0 +1,3 @@
+pygame==2.5.0
+ultralytics==8.0.124
+py-opencv==4.7.0

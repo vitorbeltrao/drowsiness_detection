@@ -15,6 +15,10 @@
 This project aims to detect drowsiness using [YOLOv8](https://docs.ultralytics.com/), a state-of-the-art object detection model. The goal is to create a custom model by training it on images collected from a webcam to detect signs of drowsiness, such as closed eyes or head drooping. Once drowsiness is detected, an audio alert is triggered to alert the person and prevent potential accidents. The project focuses on enhancing safety for individuals who drive long distances or work in industries where alertness is crucial, such as shift-based jobs.
 
 ![inferences](https://github.com/vitorbeltrao/drowsiness_detection/blob/main/images/drowsiness_detection_inferences.png?raw=true)
+
+### Project architecture
+
+![architecture](https://github.com/vitorbeltrao/drowsiness_detection/blob/main/images/Projects%20Architectures%20-%20Frame%204.jpg?raw=true)
 ***
 
 ## Files Description <a name="files"></a>
