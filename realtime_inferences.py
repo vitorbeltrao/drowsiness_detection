@@ -10,16 +10,13 @@ Date: June/2023
 import logging
 import cv2
 import pygame
+import time
 from ultralytics import YOLO
 
 logging.basicConfig(
     level=logging.INFO,
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
-
-# config
-YOLO_MODEL_PATH = 'prod_deployment_path/best.pt'
-ID_VIDEO = 0
 
 
 def play_alarm_sound() -> None:
@@ -81,6 +78,17 @@ def inference_video(yolo_model_path: str, id_video: int) -> None:
         results = final_model(frame)
         annotated_frame = results[0].plot()
 
+        # Display the label founded
+        names = final_model.names
+        for r in results:
+            for c in r.boxes.cls:
+                label = names[int(c)]
+
+        # triggers the alarm if the inference is 'drowsy'
+        if label == 'drowsy':
+            time.sleep(5)
+            play_alarm_sound()
+
         # Display the frame with annotations
         cv2.imshow("YOLOv8 Inference", annotated_frame)
         logging.info("Press 'q' to stop the inference.")
@@ -98,5 +106,5 @@ def inference_video(yolo_model_path: str, id_video: int) -> None:
 
 if __name__ == "__main__":
     logging.info('About to start executing the real time inferences component\n')
-    inference_video(YOLO_MODEL_PATH, ID_VIDEO)
+    inference_video('prod_deployment_path/best.pt', 0)
     logging.info('Done executing the real time inferences component')
